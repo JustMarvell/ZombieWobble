@@ -8,11 +8,11 @@ namespace Citlali.Player
     {
         [SerializeField] NetworkObject medkitPickupPrefab;
         [SerializeField] float useTime = 2f;
-        [SerializeField] float useRange =  2.5f;
+        [SerializeField] float useRange = 2.5f;
         [SerializeField] float healAmount = 60f;
 
         public NetworkVariable<bool> HasMedkit = new();
-        public NetworkVariable<float> UseProgress = new();
+        public NetworkVariable<float> UseProgress = new();   // 0 to 1, for the UI
 
         PlayerLife life;
         Health health;
@@ -32,7 +32,9 @@ namespace Citlali.Player
             if (IsServer && health != null) health.Damaged -= OnHit;
         }
 
-        void OnHit(float amount) => CancelUse();
+        void OnHit(float amount) => CancelUse();   // getting hit interrupts
+
+        // ---- Server only below ----
 
         public bool TryPickup()
         {
@@ -69,7 +71,7 @@ namespace Citlali.Player
             target = FindTarget();
             if (target == null) return;
             isUsing = true;
-            useTimer = 0f; 
+            useTimer = 0f;
         }
 
         PlayerLife FindTarget()
@@ -82,12 +84,12 @@ namespace Citlali.Player
                 if (pl == null || pl.State.Value == PlayerState.Dead) continue;
 
                 var h = pl.GetComponent<Health>();
-                if (!pl.IsDowned && h.Hp.Value >= h.MaxHp) continue;
+                if (!pl.IsDowned && h.Hp.Value >= h.MaxHp) continue;   // nothing to heal
 
                 float d = Vector3.Distance(transform.position, pl.transform.position);
                 if (d > useRange) continue;
 
-                float score = d + (pl.IsDowned ? 0f : 100f);
+                float score = d + (pl.IsDowned ? 0f : 100f);           // downed players first
                 if (score < bestScore) { bestScore = score; best = pl; }
             }
             return best;
@@ -104,7 +106,7 @@ namespace Citlali.Player
                 return;
             }
 
-            useTime += Time.deltaTime;
+            useTimer += Time.deltaTime;
             UseProgress.Value = Mathf.Clamp01(useTimer / useTime);
             if (useTimer < useTime) return;
 
@@ -120,7 +122,7 @@ namespace Citlali.Player
             isUsing = false;
             target = null;
             useTimer = 0f;
-            if (!IsServer && UseProgress.Value != 0f) UseProgress.Value = 0f;
+            if (IsServer && UseProgress.Value != 0f) UseProgress.Value = 0f;
         }
     }
 }

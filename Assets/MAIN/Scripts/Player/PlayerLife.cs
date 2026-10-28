@@ -15,7 +15,7 @@ namespace Citlali.Player
         [SerializeField] Collider bodyCollider;
 
         public NetworkVariable<PlayerState> State = new(PlayerState.Alive);
-        public NetworkVariable<int> BleedOut = new();
+        public NetworkVariable<int> BleedOut = new();   // whole seconds left, for the UI
 
         public bool IsAlive => State.Value == PlayerState.Alive;
         public bool IsDowned => State.Value == PlayerState.Downed;
@@ -46,7 +46,7 @@ namespace Citlali.Player
         public override void OnNetworkDespawn()
         {
             State.OnValueChanged -= OnStateChanged;
-            if (IsServer && health != null) health.Died -= GoDown;   
+            if (IsServer && health != null) health.Died -= GoDown;
         }
 
         void OnStateChanged(PlayerState previous, PlayerState next) => ApplyVisual(next);
@@ -65,11 +65,11 @@ namespace Citlali.Player
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
             }
-
             netRb.SetIsKinematic(downed);
             bodyCollider.enabled = !downed;
         }
 
+        // Server only
         void GoDown()
         {
             if (!IsAlive) return;
@@ -78,6 +78,14 @@ namespace Citlali.Player
             bleedTimer = bleedOutTime;
             BleedOut.Value = Mathf.CeilToInt(bleedOutTime);
             State.Value = PlayerState.Downed;
+            SetDownedPhysics(true);
+        }
+
+        public void Revive()
+        {
+            if (!IsServer || !IsDowned) return;
+            health.SetHp(health.MaxHp * reviveHpFraction);
+            State.Value = PlayerState.Alive;
             SetDownedPhysics(false);
         }
 
@@ -86,14 +94,6 @@ namespace Citlali.Player
             if (!IsServer) return;
             health.ResetFull();
             inventory.ClearMedkit();
-            State.Value = PlayerState.Alive;
-            SetDownedPhysics(false);
-        }
-
-        public void Revive()
-        {
-            if (!IsServer || !IsDowned) return;
-            health.SetHp(health.MaxHp * reviveHpFraction);
             State.Value = PlayerState.Alive;
             SetDownedPhysics(false);
         }
