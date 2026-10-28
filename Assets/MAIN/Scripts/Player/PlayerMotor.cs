@@ -38,6 +38,8 @@ namespace Citlali.Player
 
         void FixedUpdate()
         {
+            if (rb.isKinematic) return;
+
             if (Time.time - lastInputTime > 0.25f) moveDir = Vector3.zero;
 
             Vector3 v = rb.linearVelocity;

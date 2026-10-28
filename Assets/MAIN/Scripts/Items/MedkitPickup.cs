@@ -1,16 +1,30 @@
+using System.Collections.Generic;
+using Citlali.Player;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MedkitPickup : MonoBehaviour
+namespace Citlali.Items
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class MedkitPickup : NetworkBehaviour
     {
-        
-    }
+        public static readonly List<MedkitPickup> All = new();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void OnNetworkSpawn()
+        {
+            All.Add(this);
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            All.Remove(this);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (!IsServer) return;
+            var rbody = other.attachedRigidbody;
+            var inv = rbody ? rbody.GetComponent<PlayerInventory>() : null;
+            if (inv != null && inv.TryPickup()) NetworkObject.Despawn(true);
+        }
     }
 }

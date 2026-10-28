@@ -39,5 +39,10 @@ namespace Citlali.Common
         {
             if (IsServer) Hp.Value = maxHp;
         }
+
+        public void SetHp(float value)
+        {
+            if (IsServer) Hp.Value = Mathf.Clamp(value, 0f, maxHp);
+        }
     }
 }

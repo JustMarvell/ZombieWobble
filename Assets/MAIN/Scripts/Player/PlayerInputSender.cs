@@ -9,8 +9,10 @@ namespace Citlali.Player
         [SerializeField] PlayerMotor motor;
         [SerializeField] PlayerCombat combat;
         [SerializeField] PlayerGrab grab;
+        [SerializeField] PlayerLife life;
+        [SerializeField] PlayerInventory inventory;
 
-        InputAction move, jump, punch, grabAction;
+        InputAction move, jump, punch, grabAction, useAction;
         Transform cam;
 
         public override void OnNetworkSpawn()
@@ -33,19 +35,24 @@ namespace Citlali.Player
             grabAction = new InputAction("Grab", binding: "<Keyboard>/e");
             grabAction.AddBinding("<Gamepad>/buttonEast");
 
-            move.Enable(); jump.Enable(); punch.Enable(); grabAction.Enable();
+            useAction = new InputAction("UseItem", binding: "<Keyboard>/q");
+            useAction.AddBinding("<Gamepad>/buttonNorth");
+
+            move.Enable(); jump.Enable(); punch.Enable(); grabAction.Enable(); useAction.Enable();
         }
 
         public override void OnNetworkDespawn()
         {
-            move?.Dispose(); jump?.Dispose(); punch?.Dispose(); grabAction?.Dispose();
+            move?.Dispose(); jump?.Dispose(); punch?.Dispose(); grabAction?.Dispose(); useAction?.Dispose();
         }
 
         void Update()
         {
             if (jump.WasPressedThisFrame()) JumpRpc();
-            if (punch.WasPressedThisFrame()) PunchRpc();
+            if (punch.WasPressedThisFrame() && CursorController.GameplayActive) PunchRpc();
             if (grabAction.WasPressedThisFrame()) GrabRpc();
+            if (useAction.WasPressedThisFrame()) UseRpc(true);
+            if (useAction.WasReleasedThisFrame()) UseRpc(false);
         }
 
         void FixedUpdate()
@@ -57,15 +64,18 @@ namespace Citlali.Player
         }
 
         [Rpc(SendTo.Server, Delivery = RpcDelivery.Unreliable)]
-        void MoveRpc(Vector3 dir) => motor.SetMoveDir(dir);
+        void MoveRpc(Vector3 dir) => motor.SetMoveDir(life.IsAlive ? dir : Vector3.zero);
 
         [Rpc(SendTo.Server)]
-        void JumpRpc() => motor.Jump();
+        void JumpRpc() { if (life.IsAlive) motor.Jump(); }
 
         [Rpc(SendTo.Server)]
-        void PunchRpc() => combat.TryPunch();
+        void PunchRpc() { if (life.IsAlive) combat.TryPunch(); }
 
         [Rpc(SendTo.Server)]
-        void GrabRpc() => grab.ToggleGrab();
+        void GrabRpc() { if (life.IsAlive) grab.ToggleGrab(); }
+
+        [Rpc(SendTo.Server)]
+        void UseRpc(bool holding) => inventory.SetUsing(holding);
     }
 }

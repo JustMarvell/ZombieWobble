@@ -1,16 +1,31 @@
+using Citlali.Game;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class CursorController : MonoBehaviour
+namespace Citlali.Player
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class CursorController : MonoBehaviour
     {
-        
-    }
+        public static bool GameplayActive => Cursor.lockState == CursorLockMode.Locked;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        bool paused;
+
+        void Update()
+        {
+            var nm = NetworkManager.Singleton;
+            var gm = GameManager.Instance;
+            bool playing = nm != null && nm.IsListening && gm != null && gm.State.Value == GameState.Playing;
+
+            var kb = Keyboard.current;
+            if (playing && kb != null && (kb.escapeKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame))
+                paused = !paused;
+            if (!playing) paused = false;
+
+            bool wantLock = playing && !paused;
+            var target = wantLock ? CursorLockMode.Locked : CursorLockMode.None;
+            if (Cursor.lockState != target) Cursor.lockState = target;
+            Cursor.visible = !wantLock;
+        }
     }
 }

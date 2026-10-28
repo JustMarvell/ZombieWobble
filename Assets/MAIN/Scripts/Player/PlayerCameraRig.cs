@@ -18,8 +18,7 @@ namespace Citlali.Player
             if (!IsOwner) { enabled = false; return; }
             cam = Camera.main.transform;
             look = new InputAction("Look", binding: "<Pointer>/delta");
-            look.Enable();
-            // Cursor.lockState = CursorLockMode.Locked;
+            look.Enable();  
         }
 
         public override void OnNetworkDespawn()
@@ -29,9 +28,12 @@ namespace Citlali.Player
 
         void LateUpdate()
         {
-            Vector2 d = look.ReadValue<Vector2>();
-            yaw += d.x * sensitivity;
-            pitch = Mathf.Clamp(pitch - d.y * sensitivity, 5f, 60f);
+            if (CursorController.GameplayActive)
+            {
+                Vector2 d = look.ReadValue<Vector2>();
+                yaw += d.x * sensitivity;
+                pitch = Mathf.Clamp(pitch - d.y * sensitivity, 5f, 60f);
+            }
 
             Quaternion rot = Quaternion.Euler(pitch, yaw, 0f);
             Vector3 focus = transform.position + Vector3.up;

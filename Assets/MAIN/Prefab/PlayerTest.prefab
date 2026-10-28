@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 7906425182723946663}
   - component: {fileID: -2442807170761782672}
   - component: {fileID: 2725092844538982968}
+  - component: {fileID: -2263029534336143343}
+  - component: {fileID: 3231019135484019015}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -236,6 +238,8 @@ MonoBehaviour:
   motor: {fileID: 1142991818600151387}
   combat: {fileID: 6888812274321064090}
   grab: {fileID: 7906425182723946663}
+  life: {fileID: -2263029534336143343}
+  inventory: {fileID: 3231019135484019015}
 --- !u!114 &5376224829804228838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +311,60 @@ MonoBehaviour:
   maxDamage: 60
   hitCooldown: 0.15
   logImpacts: 1
+--- !u!114 &-2263029534336143343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526650522854035989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df4befb388a427d5abb8c30e4a3be4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Player.PlayerLife
+  ShowTopMostFoldoutHeaderGroup: 1
+  bleedOutTime: 30
+  reviveHpFraction: 0.3
+  visual: {fileID: 1785227259808608197}
+  bodyCollider: {fileID: 2988986509854069220}
+  State:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  BleedOut:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!114 &3231019135484019015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526650522854035989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2600e96bb156bfb1edec92b506d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Player.PlayerInventory
+  ShowTopMostFoldoutHeaderGroup: 1
+  medkitPickupPrefab: {fileID: 1783856863100677257, guid: 66cc96245ce7d060c817f9bad9918e27, type: 3}
+  useTime: 2
+  useRange: 2.5
+  healAmount: 60
+  HasMedkit:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  UseProgress:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &6181133731438154978
 GameObject:
   m_ObjectHideFlags: 0
