@@ -19,7 +19,7 @@ namespace Citlali.Player
             cam = Camera.main.transform;
             look = new InputAction("Look", binding: "<Pointer>/delta");
             look.Enable();
-            Cursor.lockState = CursorLockMode.Locked;
+            // Cursor.lockState = CursorLockMode.Locked;
         }
 
         public override void OnNetworkDespawn()

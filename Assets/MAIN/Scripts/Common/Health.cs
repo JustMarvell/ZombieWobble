@@ -34,5 +34,10 @@ namespace Citlali.Common
             if (!IsServer || IsDead) return;
             Hp.Value = Mathf.Min(maxHp, Hp.Value + amount);
         }
+
+        public void ResetFull()
+        {
+            if (IsServer) Hp.Value = maxHp;
+        }
     }
 }

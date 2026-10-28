@@ -1,16 +1,26 @@
+using Citlali.Carry;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GoalZone : MonoBehaviour
+namespace Citlali.Game
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [RequireComponent(typeof(BoxCollider))]
+    public class GoalZone : MonoBehaviour
     {
-        
-    }
+        void Reset()
+        {
+            GetComponent<BoxCollider>().isTrigger = true;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void OnTriggerStay(Collider other)
+        {
+            var nm = NetworkManager.Singleton;
+            if (nm == null || !nm.IsServer) return;
+            if (!other.attachedRigidbody || !other.attachedRigidbody.TryGetComponent(out CarryObject _)) return;
+
+            Bounds zone = GetComponent<Collider>().bounds;
+            if (zone.Contains(other.bounds.min) && zone.Contains(other.bounds.max))
+                GameManager.Instance.ReportGoalReached();
+        }
     }
 }
