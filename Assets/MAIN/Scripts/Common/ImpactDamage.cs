@@ -1,16 +1,35 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class ImpactDamage : MonoBehaviour
+namespace Citlali.Common
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [RequireComponent(typeof(Health))]
+    public class ImpactDamage : NetworkBehaviour
     {
-        
-    }
+        [SerializeField] float threshold = 25f;
+        [SerializeField] float damagePerImpulse = 1f;
+        [SerializeField] float maxDamage = 60f;
+        [SerializeField] float hitCooldown = 0.15f;
+        [SerializeField] bool logImpacts = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Health health;
+        float nextHitTime;
+
+        void Awake()
+        {
+            health = GetComponent<Health>();
+        }
+
+        void OnCollisionEnter(Collision c)
+        {
+            if (!IsServer || Time.time < nextHitTime) return;
+
+            float impulse = c.impulse.magnitude;
+            if (logImpacts && impulse > 5f) Debug.Log($"{name} impact {impulse:F1}");
+            if (impulse <= threshold) return;
+
+            nextHitTime = Time.time + hitCooldown;
+            health.TakeDamage(Mathf.Min((impulse - threshold) * damagePerImpulse, maxDamage));
+        }
     }
 }
