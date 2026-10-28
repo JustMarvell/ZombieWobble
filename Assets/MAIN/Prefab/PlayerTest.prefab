@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 4412603821084613910}
   - component: {fileID: 5376224829804228838}
   - component: {fileID: 7906425182723946663}
+  - component: {fileID: -2442807170761782672}
+  - component: {fileID: 2725092844538982968}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -268,6 +270,43 @@ MonoBehaviour:
   damper: 8
   maxForce: 80
   slipDistance: 3
+--- !u!114 &-2442807170761782672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526650522854035989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d154f17832ec579b243bd5f302139e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Common.Health
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxHp: 100
+  Hp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 100
+--- !u!114 &2725092844538982968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526650522854035989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a06891f41a72a908ea305d927d5ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Common.ImpactDamage
+  ShowTopMostFoldoutHeaderGroup: 1
+  threshold: 25
+  damagePerImpulse: 1.5
+  maxDamage: 60
+  hitCooldown: 0.15
+  logImpacts: 1
 --- !u!1 &6181133731438154978
 GameObject:
   m_ObjectHideFlags: 0
