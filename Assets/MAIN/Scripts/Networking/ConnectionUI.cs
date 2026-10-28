@@ -1,8 +1,9 @@
+using Citlali.Config;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
-namespace Citlali
+namespace Citlali.Networking
 {
     public class ConnectionUI : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Citlali
+namespace Citlali.Player
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMotor : NetworkBehaviour

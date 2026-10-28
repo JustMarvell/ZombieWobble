@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 
-namespace Citlali
+namespace Citlali.Carry
 {
     [RequireComponent(typeof(Rigidbody))]
     public class CarryObject : NetworkBehaviour

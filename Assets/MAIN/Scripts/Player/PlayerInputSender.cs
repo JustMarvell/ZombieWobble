@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Citlali
+namespace Citlali.Player
 {
     public class PlayerInputSender : NetworkBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Citlali
+namespace Citlali.Config
 {
     public static class GameConfig
     {

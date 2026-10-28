@@ -1,7 +1,8 @@
+using Citlali.Carry;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Citlali
+namespace Citlali.Player
 {
     public class PlayerGrab : NetworkBehaviour
     {

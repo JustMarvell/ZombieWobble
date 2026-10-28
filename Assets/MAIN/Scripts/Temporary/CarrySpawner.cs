@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Citlali
+namespace Citlali.Temporary
 {
     public class CarrySpawner : MonoBehaviour
     {
