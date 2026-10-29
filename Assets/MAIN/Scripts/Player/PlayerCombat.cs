@@ -15,6 +15,8 @@ namespace Citlali.Player
         [SerializeField] float radius = 0.8f;
         [SerializeField] float force = 12f;
         [SerializeField] float enemyDamage = 10f;
+        [SerializeField] PunchArmIK punchIK;
+        [SerializeField] VisualWobble wobble;
 
         float nextPunchTime;
         readonly HashSet<Rigidbody> hitThisPunch = new();
@@ -48,7 +50,12 @@ namespace Citlali.Player
         }
 
         [Rpc(SendTo.ClientsAndHost)]
-        void PunchVisualRpc() => StartCoroutine(Lunge());
+        void PunchVisualRpc()
+        {
+            punchIK.Play();
+            wobble.Kick(150f);
+            StartCoroutine(Lunge());
+        }
 
         IEnumerator Lunge()
         {

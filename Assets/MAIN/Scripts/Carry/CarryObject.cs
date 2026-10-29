@@ -15,6 +15,7 @@ namespace Citlali.Carry
 
         public NetworkList<ulong> Occupants = new();
         public Rigidbody Rb { get; private set; }
+        public Transform GetHandle(int index) => handles[index];
 
         void Awake()
         {

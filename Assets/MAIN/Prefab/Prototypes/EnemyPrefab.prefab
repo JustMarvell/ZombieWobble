@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2317886762030953771}
   - component: {fileID: 1497492952271960763}
   - component: {fileID: -8314220065957514151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,6 +257,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 30
+  PaddingSecs:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!114 &1497492952271960763
 MonoBehaviour:
   m_ObjectHideFlags: 0

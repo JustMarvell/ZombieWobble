@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3497915415146608995}
   - component: {fileID: 7955824255753604950}
   - component: {fileID: -2228205859293202954}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CarryObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,6 +277,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 100
+  PaddingSecs:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!114 &-2228205859293202954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2899844338625666044}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Handle(2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1369422087013330691}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Handle(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

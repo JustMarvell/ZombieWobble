@@ -44,6 +44,7 @@ namespace Citlali.Player
         void FixedUpdate()
         {
             if (rb.isKinematic) return;
+            rb.angularVelocity = Vector3.zero;
 
             if (Time.time - lastInputTime > 0.25f) moveDir = Vector3.zero;
 

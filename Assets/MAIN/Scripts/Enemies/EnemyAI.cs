@@ -45,6 +45,8 @@ namespace Citlali.Enemies
 
         void FixedUpdate()
         {
+            rb.angularVelocity = Vector3.zero;
+
             if (GameManager.Instance.State.Value != GameState.Playing || CarryObject.All.Count == 0) return;
 
             Vector3 to = CarryObject.All[0].transform.position - transform.position;
