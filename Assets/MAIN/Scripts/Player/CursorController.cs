@@ -15,7 +15,8 @@ namespace Citlali.Player
         {
             var nm = NetworkManager.Singleton;
             var gm = GameManager.Instance;
-            bool playing = nm != null && nm.IsListening && gm != null && gm.State.Value == GameState.Playing;
+            bool playing = nm != null && nm.IsListening && gm != null &&
+               (gm.State.Value == GameState.Playing || gm.State.Value == GameState.Countdown);
 
             var kb = Keyboard.current;
             if (playing && kb != null && (kb.escapeKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame))

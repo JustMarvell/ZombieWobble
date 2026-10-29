@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using Citlali.Common;
 using Citlali.Enemies;
 using Citlali.Items;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Citlali.Game
 {
-    public enum GameState { Lobby, Playing, Won, Lost }
+    public enum GameState { Lobby, Countdown, Playing, Won, Lost }
 
     public class GameManager : NetworkBehaviour
     {
@@ -23,9 +24,11 @@ namespace Citlali.Game
         [SerializeField] NetworkObject[] powerUpPrefabs;
         [SerializeField] Transform[] powerUpSpawns;
         [SerializeField] int powerUpCount = 3;
+        [SerializeField] int countdownSeconds = 3;
         
         public NetworkVariable<GameState> State = new NetworkVariable<GameState>(GameState.Lobby);
         public NetworkVariable<int> LevelSeed = new();
+        public NetworkVariable<int> Countdown = new();
 
         NetworkObject carry;
         Health carryHealth;
@@ -38,6 +41,7 @@ namespace Citlali.Game
         public void StartRound()
         {
             if (!IsServer) return;
+            StopAllCoroutines();
             LevelSeed.Value = Random.Range(int.MinValue, int.MaxValue);
             ResetPlayers();
             ClearCarry();
@@ -48,7 +52,7 @@ namespace Citlali.Game
             SpawnMedkits();
             SpawnPowerUps();
 
-            State.Value = GameState.Playing;
+            StartCoroutine(CountdownRoutine());
         }
 
         public void ReportGoalReached()
@@ -153,6 +157,18 @@ namespace Citlali.Game
         {
             foreach (var e in new List<EnemyAI>(EnemyAI.All))
                 if (e.NetworkObject.IsSpawned) e.NetworkObject.Despawn(true);
+        }
+
+        IEnumerator CountdownRoutine()
+        {
+            State.Value = GameState.Countdown;
+            for (int i = countdownSeconds; i > 0; i--)
+            {
+                Countdown.Value = i;
+                yield return new WaitForSeconds(1f);
+            }
+            Countdown.Value = 0;
+            State.Value = GameState.Playing;
         }
     }
 }
