@@ -14,9 +14,14 @@ namespace Citlali.Player
 
         Rigidbody rb;
         Vector3 moveDir;
+        PlayerBuffs buffs;
         float lastInputTime;
 
-        void Awake() => rb = GetComponent<Rigidbody>();
+        void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+            buffs = GetComponent<PlayerBuffs>();
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -33,7 +38,7 @@ namespace Citlali.Player
         public void Jump()
         {
             if (Physics.Raycast(transform.position, Vector3.down, 1.1f))
-                rb.AddForce(Vector3.up * jumpSpeed, ForceMode.VelocityChange);
+                rb.AddForce(Vector3.up * jumpSpeed * buffs.JumpMult, ForceMode.VelocityChange);
         }
 
         void FixedUpdate()

@@ -18,6 +18,12 @@ namespace Citlali.Player
 
         float nextPunchTime;
         readonly HashSet<Rigidbody> hitThisPunch = new();
+        PlayerBuffs buffs;
+
+        void Awake()
+        {
+            buffs = GetComponent<PlayerBuffs>();
+        }
 
         public void TryPunch()
         {
@@ -33,10 +39,10 @@ namespace Citlali.Player
                 if (!hitThisPunch.Add(target)) continue;   // one hit per rigidbody
 
                 Vector3 dir = (target.position - transform.position).normalized + Vector3.up * 0.3f;
-                target.AddForce(dir.normalized * force, ForceMode.Impulse);
+                target.AddForce(dir.normalized * force * buffs.PunchMult, ForceMode.Impulse);
 
                 if (target.TryGetComponent(out EnemyAI _) && target.TryGetComponent(out Health enemyHealth))
-                    enemyHealth.TakeDamage(enemyDamage);
+                    enemyHealth.TakeDamage(enemyDamage * buffs.PunchMult);
             }
             PunchVisualRpc();
         }

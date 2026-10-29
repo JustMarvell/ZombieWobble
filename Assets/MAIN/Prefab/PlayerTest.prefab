@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 2725092844538982968}
   - component: {fileID: -2263029534336143343}
   - component: {fileID: 3231019135484019015}
+  - component: {fileID: 457997939825957045}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -222,6 +223,7 @@ MonoBehaviour:
   range: 1.2
   radius: 0.8
   force: 40
+  enemyDamage: 10
 --- !u!114 &4412603821084613910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +295,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 100
+  PaddingSecs:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!114 &2725092844538982968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +368,31 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   UseProgress:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+--- !u!114 &457997939825957045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526650522854035989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c759198f0a7e2769aafdf66333ae099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Player.PlayerBuffs
+  ShowTopMostFoldoutHeaderGroup: 1
+  punchMultiplier: 2
+  jumpMultiplier: 1.6
+  GlovesSecs:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  JumpSecs:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0

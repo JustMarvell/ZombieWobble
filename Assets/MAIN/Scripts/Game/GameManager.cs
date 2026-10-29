@@ -20,6 +20,9 @@ namespace Citlali.Game
         [SerializeField] Transform[] playerSpawns;
         [SerializeField] NetworkObject medkitPickupPrefab;
         [SerializeField] Transform[] medkitSpawns;
+        [SerializeField] NetworkObject[] powerUpPrefabs;
+        [SerializeField] Transform[] powerUpSpawns;
+        [SerializeField] int powerUpCount = 3;
         
         public NetworkVariable<GameState> State = new NetworkVariable<GameState>(GameState.Lobby);
         public NetworkVariable<int> LevelSeed = new();
@@ -40,8 +43,10 @@ namespace Citlali.Game
             ClearCarry();
             ClearMedkits();
             ClearEnemies();
+            ClearPowerUps();
             SpawnCarry();
             SpawnMedkits();
+            SpawnPowerUps();
 
             State.Value = GameState.Playing;
         }
@@ -78,6 +83,7 @@ namespace Citlali.Game
                 
                 p.GetComponent<PlayerGrab>().Release();
                 p.GetComponent<PlayerLife>().ResetToAlive();
+                p.GetComponent<PlayerBuffs>().ClearAll();
 
                 var rb = p.GetComponent<Rigidbody>();
                 rb.linearVelocity = Vector3.zero;
@@ -112,6 +118,12 @@ namespace Citlali.Game
             }
         }
 
+        void ClearPowerUps()
+        {
+            foreach (var p in new List<PowerUpPickup>(PowerUpPickup.All))
+                if (p.NetworkObject.IsSpawned) p.NetworkObject.Despawn(true);
+        }
+
         void SpawnMedkits()
         {
             int count = Mathf.Min(Random.Range(1, 3), medkitSpawns.Length);
@@ -120,6 +132,19 @@ namespace Citlali.Game
             {
                 int k = Random.Range(0, pool.Count);
                 Instantiate(medkitPickupPrefab, pool[k].position, Quaternion.identity).Spawn();
+                pool.RemoveAt(k);
+            }
+        }
+
+        void SpawnPowerUps()
+        {
+            var pool = new List<Transform>(powerUpSpawns);
+            int count = Mathf.Min(powerUpCount, pool.Count);
+            for (int i = 0; i < count; i++)
+            {
+                int k = Random.Range(0, pool.Count);
+                var prefab = powerUpPrefabs[Random.Range(0, powerUpPrefabs.Length)];
+                Instantiate(prefab, pool[k].position, Quaternion.identity).Spawn();
                 pool.RemoveAt(k);
             }
         }
