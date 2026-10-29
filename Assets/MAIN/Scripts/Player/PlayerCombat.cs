@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Citlali.Common;
+using Citlali.Enemies;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,6 +14,7 @@ namespace Citlali.Player
         [SerializeField] float range = 1.2f;
         [SerializeField] float radius = 0.8f;
         [SerializeField] float force = 12f;
+        [SerializeField] float enemyDamage = 10f;
 
         float nextPunchTime;
         readonly HashSet<Rigidbody> hitThisPunch = new();
@@ -31,6 +34,9 @@ namespace Citlali.Player
 
                 Vector3 dir = (target.position - transform.position).normalized + Vector3.up * 0.3f;
                 target.AddForce(dir.normalized * force, ForceMode.Impulse);
+
+                if (target.TryGetComponent(out EnemyAI _) && target.TryGetComponent(out Health enemyHealth))
+                    enemyHealth.TakeDamage(enemyDamage);
             }
             PunchVisualRpc();
         }

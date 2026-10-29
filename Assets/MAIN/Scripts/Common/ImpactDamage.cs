@@ -1,3 +1,4 @@
+using Citlali.Enemies;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ namespace Citlali.Common
         void OnCollisionEnter(Collision c)
         {
             if (!IsServer || Time.time < nextHitTime) return;
+
+            if (c.rigidbody != null && c.rigidbody.TryGetComponent(out EnemyAI _) && !TryGetComponent(out EnemyAI _)) return;
 
             float impulse = c.impulse.magnitude;
             if (logImpacts && impulse > 5f) Debug.Log($"{name} impact {impulse:F1}");
