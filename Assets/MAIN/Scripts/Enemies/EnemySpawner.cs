@@ -30,16 +30,24 @@ namespace Citlali.Enemies
             if (timer > 0f) return;
             timer = Random.Range(interval.x, interval.y);
 
-            if (EnemyAI.All.Count >= maxAlive || CarryObject.All.Count == 0) return;
+            if (EnemyAI.All.Count >= maxAlive || CarryObject.All.Count == 0)
+            {
+                Debug.Log($"Spawner skipped: alive {EnemyAI.All.Count}/{maxAlive}, carry objects {CarryObject.All.Count}");
+                return;
+            }
             Vector3 center = CarryObject.All[0].transform.position;
-            
+
             var candidates = new List<Transform>();
             foreach (var p in spawnPoints)
             {
                 float d = Vector3.Distance(p.position, center);
                 if (d >= minDistance && d <= maxDistance) candidates.Add(p);
             }
-            if (candidates.Count == 0) return;
+            if (candidates.Count == 0)
+            {
+                Debug.LogWarning($"Spawner: no spawn point between {minDistance} and {maxDistance} of the object at {center}");
+                return;
+            }
 
             var sp = candidates[Random.Range(0, candidates.Count)];
             Instantiate(enemyPrefab, sp.position + Vector3.up, sp.rotation).Spawn();

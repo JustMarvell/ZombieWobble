@@ -123,13 +123,11 @@ namespace Citlali.Game
                 pool.RemoveAt(k);
             }
         }
-        
+
         void ClearEnemies()
         {
             foreach (var e in new List<EnemyAI>(EnemyAI.All))
-            {
                 if (e.NetworkObject.IsSpawned) e.NetworkObject.Despawn(true);
-            }
         }
     }
 }
