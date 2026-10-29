@@ -1890,7 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7ca3e950b38e2bead4f1a46d3e641a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Enemies.EnemySpawner
-  enemyPrefab: {fileID: 8981497099037811648, guid: e367462647a3c242a984199bd8c25019, type: 3}
+  enemyPrefab: {fileID: 8658140783479085544, guid: 3495796db132cd1f89deaaf9a00bc76a, type: 3}
   spawnPoints:
   - {fileID: 1171385816}
   - {fileID: 1906296035}
@@ -4403,7 +4403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Game.GameManager
   ShowTopMostFoldoutHeaderGroup: 1
-  carryPrefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+  carryPrefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
   carrySpawn: {fileID: 935334341}
   playerSpawns:
   - {fileID: 438233912}

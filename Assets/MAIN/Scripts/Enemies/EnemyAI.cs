@@ -1,8 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using Citlali.Carry;
 using Citlali.Common;
 using Citlali.Game;
+using Citlali.Player;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 namespace Citlali.Enemies
@@ -17,15 +20,18 @@ namespace Citlali.Enemies
         [SerializeField] float responsiveness = 4f;
         [SerializeField] float contactDamage = 10f;
         [SerializeField] float attackCooldown = 1f;
+        [SerializeField] RagdollController ragdoll;
 
         Rigidbody rb;
         Health health;
         float nextAttackTime;
+        bool dead;
 
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
             health = GetComponent<Health>();
+            ragdoll.SetRagdoll(false);
         }
 
         public override void OnNetworkSpawn()
@@ -41,10 +47,32 @@ namespace Citlali.Enemies
             if (health != null) health.Died -= OnDied;
         }
 
-        void OnDied() => NetworkObject.Despawn(true);
+        void OnDied()
+        {
+            if (dead) return;
+            dead = true;
+            All.Remove(this);
+
+            GetComponent<Collider>().enabled = false;
+            GetComponent<NetworkRigidbody>().SetIsKinematic(true);
+
+            DieRpc();
+            StartCoroutine(DespawnLater(2.5f));
+        }
+
+        [Rpc(SendTo.ClientsAndHost)]
+        void DieRpc() => ragdoll.SetRagdoll(true);
+
+        IEnumerator DespawnLater(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            if (NetworkObject.IsSpawned) NetworkObject.Despawn(true);
+        }
 
         void FixedUpdate()
         {
+            if (dead) return;
+
             rb.angularVelocity = Vector3.zero;
 
             if (GameManager.Instance.State.Value != GameState.Playing || CarryObject.All.Count == 0) return;
@@ -65,6 +93,8 @@ namespace Citlali.Enemies
 
         void OnCollisionStay(Collision c)
         {
+            if (dead) return;
+
             if (!IsServer || Time.time < nextAttackTime) return;
             if (GameManager.Instance.State.Value != GameState.Playing) return;
 
@@ -74,6 +104,7 @@ namespace Citlali.Enemies
 
             nextAttackTime = Time.time + attackCooldown;
             target.TakeDamage(contactDamage);
+            if (other.TryGetComponent(out PlayerLife victim)) victim.Knockdown(0.6f);
         }
     }
 }

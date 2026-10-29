@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 457997939825957045}
   - component: {fileID: 4969265047639660925}
   m_Layer: 3
-  m_Name: PlayerTest
+  m_Name: PlayerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3791593379
+  GlobalObjectIdHash: 191667038
   InScenePlacedSourceGlobalObjectIdHash: 191667038
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -415,6 +415,7 @@ MonoBehaviour:
   enemyDamage: 10
   punchIK: {fileID: 3589638274824102633}
   wobble: {fileID: 3303202477148688714}
+  knockdownTime: 1.5
 --- !u!114 &4412603821084613910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,12 +527,18 @@ MonoBehaviour:
   reviveHpFraction: 0.3
   visual: {fileID: 1785227259808608197}
   bodyCollider: {fileID: 2988986509854069220}
+  ragdoll: {fileID: 2292164798514708277}
   State:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   BleedOut:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  KnockedDown:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
@@ -1029,8 +1036,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.09765625
-  m_Center: {x: 0, y: 0.09765625, z: 0}
+  m_Radius: 0.0012
+  m_Center: {x: 0, y: 0.002, z: 0.0004}
 --- !u!54 &114277141374156143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1321,7 +1328,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0009095979
+  m_Radius: 0.0005
   m_Height: 0.0045479895
   m_Direction: 1
   m_Center: {x: 0, y: 0.0022739947, z: 0}
@@ -1616,7 +1623,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0016090686
+  m_Radius: 0.00093
   m_Height: 0.0053635617
   m_Direction: 1
   m_Center: {x: 0, y: 0.0026817808, z: 0}
@@ -2192,8 +2199,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.00390625, y: 0.0015220735, z: 0.0028180697}
-  m_Center: {x: 0, y: 0.00076103676, z: -0.00044962147}
+  m_Size: {x: 0.00390625, y: 0.0006124847, z: 0.0025205342}
+  m_Center: {x: 0, y: 0.0010190486, z: 0.00044678425}
 --- !u!54 &7727263843703930223
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2427,7 +2434,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0016091058
+  m_Radius: 0.00093
   m_Height: 0.005363686
   m_Direction: 1
   m_Center: {x: 0, y: 0.002681843, z: 0}
@@ -2582,6 +2589,7 @@ GameObject:
   - component: {fileID: 2713386348416183687}
   - component: {fileID: 3589638274824102633}
   - component: {fileID: 3303202477148688714}
+  - component: {fileID: 2292164798514708277}
   m_Layer: 3
   m_Name: Model
   m_TagString: Untagged
@@ -2719,6 +2727,29 @@ MonoBehaviour:
   stiffness: 120
   damping: 8
   maxAngle: 25
+--- !u!114 &2292164798514708277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4607228475685010018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e93c9177b2f9be5a55bb299613dfaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Player.RagdollController
+  animator: {fileID: 7087493302098426530}
+  rigBuilder: {fileID: 3087935118812705376}
+  owner: {fileID: 7476014102008422801}
+  disableWhileRagdoll:
+  - {fileID: 3303202477148688714}
+  - {fileID: 2713386348416183687}
+  - {fileID: 3589638274824102633}
+  skins:
+  - {fileID: 597520281285673541}
+  followStrength: 60
+  followDamping: 6
 --- !u!1 &4638383720004438330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2806,7 +2837,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.00390625, y: 0.004228969, z: 0.0025347807}
-  m_Center: {x: 0, y: 0.0021143598, z: -0.0002335636}
+  m_Center: {x: 0, y: 0.0021143598, z: 0.0003}
 --- !u!54 &4899510001070278966
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3146,7 +3177,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0013548306
+  m_Radius: 0.00056
   m_Height: 0.0054193223
   m_Direction: 1
   m_Center: {x: 0, y: 0.0027096611, z: 0}
@@ -3399,7 +3430,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.001354817
+  m_Radius: 0.00056
   m_Height: 0.005419268
   m_Direction: 1
   m_Center: {x: 0, y: 0.002709634, z: 0}
@@ -3851,7 +3882,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0009096092
+  m_Radius: 0.0005
   m_Height: 0.004548046
   m_Direction: 1
   m_Center: {x: 0, y: 0.002274023, z: 0}

@@ -17,6 +17,7 @@ namespace Citlali.Player
         [SerializeField] float enemyDamage = 10f;
         [SerializeField] PunchArmIK punchIK;
         [SerializeField] VisualWobble wobble;
+        [SerializeField] float knockdownTime = 1.5f;
 
         float nextPunchTime;
         readonly HashSet<Rigidbody> hitThisPunch = new();
@@ -34,7 +35,7 @@ namespace Citlali.Player
 
             hitThisPunch.Clear();
             Vector3 center = transform.position + transform.forward * range;
-            foreach (var col in Physics.OverlapSphere(center, radius))
+            foreach (var col in Physics.OverlapSphere(center, radius, ~(1 << LayerMask.NameToLayer("Ragdoll"))))
             {
                 var target = col.attachedRigidbody;
                 if (target == null || target.gameObject == gameObject) continue;
@@ -44,7 +45,10 @@ namespace Citlali.Player
                 target.AddForce(dir.normalized * force * buffs.PunchMult, ForceMode.Impulse);
 
                 if (target.TryGetComponent(out EnemyAI _) && target.TryGetComponent(out Health enemyHealth))
+                {
                     enemyHealth.TakeDamage(enemyDamage * buffs.PunchMult);
+                    if (target.TryGetComponent(out PlayerLife victim)) victim.Knockdown(knockdownTime);
+                }
             }
             PunchVisualRpc();
         }

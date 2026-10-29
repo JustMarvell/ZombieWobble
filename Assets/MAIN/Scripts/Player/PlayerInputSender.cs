@@ -64,19 +64,19 @@ namespace Citlali.Player
             MoveRpc(fwd * i.y + right * i.x);   // camera-relative world direction
         }
 
-        bool CanAct() => life.IsAlive && GameManager.Instance.State.Value != GameState.Countdown;
+        bool CanAct => life.IsAlive && !life.KnockedDown.Value && GameManager.Instance.State.Value != GameState.Countdown;
 
         [Rpc(SendTo.Server, Delivery = RpcDelivery.Unreliable)]
-        void MoveRpc(Vector3 dir) => motor.SetMoveDir(CanAct() ? dir : Vector3.zero);
+        void MoveRpc(Vector3 dir) => motor.SetMoveDir(CanAct ? dir : Vector3.zero);
 
         [Rpc(SendTo.Server)]
-        void JumpRpc() { if (CanAct()) motor.Jump(); }
+        void JumpRpc() { if (CanAct) motor.Jump(); }
 
         [Rpc(SendTo.Server)]
-        void PunchRpc() { if (CanAct()) combat.TryPunch(); }
+        void PunchRpc() { if (CanAct) combat.TryPunch(); }
 
         [Rpc(SendTo.Server)]
-        void GrabRpc() { if (CanAct()) grab.ToggleGrab(); }
+        void GrabRpc() { if (CanAct) grab.ToggleGrab(); }
 
         [Rpc(SendTo.Server)]
         void UseRpc(bool holding) => inventory.SetUsing(holding);
