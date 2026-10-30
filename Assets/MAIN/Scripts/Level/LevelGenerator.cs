@@ -13,7 +13,7 @@ namespace Citlali.Level
             if (state == 0) state = 1;
         }
 
-        public int Next(int max)    // 0 to max-1, same result on every machine
+        public int Next(int max)   // 0 to max-1, same result on every machine
         {
             state ^= state << 13;
             state ^= state >> 17;
@@ -42,10 +42,7 @@ namespace Citlali.Level
             if (root != null) Destroy(root);
             root = new GameObject("Level");
 
-            PlayerSpawns.Clear(); 
-            MedkitSpawns.Clear();
-            PowerUpSpawns.Clear();
-            EnemySpawns.Clear();
+            PlayerSpawns.Clear(); MedkitSpawns.Clear(); PowerUpSpawns.Clear(); EnemySpawns.Clear();
             CarrySpawn = null;
 
             var rng = new SeededRandom(seed);
@@ -56,7 +53,7 @@ namespace Citlali.Level
             {
                 int index = (last < 0 || middleChunks.Length == 1)
                     ? rng.Next(middleChunks.Length)
-                    : (last + 1 + rng.Next(middleChunks.Length - 1)) % middleChunks.Length;     // never twice in the a row
+                    : (last + 1 + rng.Next(middleChunks.Length - 1)) % middleChunks.Length;   // never the same twice in a row
                 last = index;
                 previous = Place(middleChunks[index], previous);
             }
