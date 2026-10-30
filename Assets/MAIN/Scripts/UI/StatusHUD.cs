@@ -95,7 +95,8 @@ namespace Citlali.UI
             {
                 if (p == null || p.IsOwner) continue;
                 var h = p.GetComponent<Health>();
-                sb.Append($"P{p.OwnerClientId}  HP {h.Hp.Value:F0}");
+                var id = p.GetComponent<PlayerIdentity>();
+                sb.Append($"<color=#{ColorUtility.ToHtmlStringRGB(id.PlayerColor)}>{id.PlayerName.Value}</color> HP : {h.Hp.Value:F0}");
                 if (p.IsDowned) sb.Append($"  DOWNED {p.BleedOut.Value}s");
                 else if (p.State.Value == PlayerState.Dead) sb.Append("  DEAD");
                 if (p.GetComponent<PlayerInventory>().HasMedkit.Value) sb.Append("  +medkit");
