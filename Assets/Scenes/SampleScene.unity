@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d91aac2ab6cacf042bdd81a4b63cc09a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -6907,13 +6907,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417e601244065058b909351794f15d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Level.LevelGenerator
-  startChunk: {fileID: 7394803436520577696, guid: ac0800c4cb0ae59ec86595bf1fe40f9b, type: 3}
+  startChunk: {fileID: 6676844293704783047, guid: 6fcbc6b597c8dde059b6279241ab3327, type: 3}
   middleChunks:
-  - {fileID: 8861278534602037425, guid: 660ea01e8836b8ed4abadda62320c3e7, type: 3}
-  - {fileID: 134341333581790342, guid: 836110db6119ce4a49b5627b773e76ff, type: 3}
-  - {fileID: 7017602409917438312, guid: 17d5ffb4090cfda04b7bf0f2e19f0198, type: 3}
-  finishChunk: {fileID: 363847590605979041, guid: d5cb54a0860b1ab5abbc329eb0eca8b0, type: 3}
-  middleCount: 5
+  - {fileID: 851086972194649326, guid: acfb421919bbb8e82b8591721e4bc396, type: 3}
+  - {fileID: 5111599770026631257, guid: 07671f73d24bd252cb7d3ed00039004d, type: 3}
+  - {fileID: 4895519879988304067, guid: 8e829b0c927965e1cad9e0fec57e280b, type: 3}
+  - {fileID: 6364805027298816175, guid: ef425fd87f4e108c38d885f5b53feeb1, type: 3}
+  - {fileID: 6671765278588452443, guid: 3731603f04c9ecbfea5676aec356bbbf, type: 3}
+  - {fileID: 8224851890815014113, guid: 76f4d4c27b63e778684c702099db1d54, type: 3}
+  - {fileID: 860217323963087357, guid: abe6724d02a68481ea18e07c147e7f62, type: 3}
+  - {fileID: 2987617478356148542, guid: b622b2501f725375d824c5ddf2ec047d, type: 3}
+  - {fileID: 1995634956814683121, guid: d00a2c00cc2399fe684308eadca294a1, type: 3}
+  finishChunk: {fileID: 3232964720753863648, guid: 421db2d6fc59617948340da022f1243c, type: 3}
+  middleCount: 10
 --- !u!4 &1190622189
 Transform:
   m_ObjectHideFlags: 0
@@ -7669,6 +7675,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1669109894}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1578621818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1578621820}
+  - component: {fileID: 1578621819}
+  m_Layer: 0
+  m_Name: ImpactFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1578621819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578621818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eaf5f3c5448a71ea931040ad0e57244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Common.ImpactFX
+  whooshClips: []
+  hitClips: []
+  hitParticlesPrefab: {fileID: 0}
+  volume: 0.8
+  voices: 8
+--- !u!4 &1578621820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578621818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581777455
 GameObject:
   m_ObjectHideFlags: 0
@@ -7886,11 +7941,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   carryPrefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
   carryOptions:
-  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+  - prefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
     minPlayers: 1
-  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+  - prefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
     minPlayers: 3
-  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+  - prefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
     minPlayers: 5
   playerSpawns:
   - {fileID: 438233912}
@@ -8787,7 +8842,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019371564}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8846,8 +8901,8 @@ Transform:
   m_GameObject: {fileID: 2019371564}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.1, y: -3.3, z: -4.74}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: -50, z: 0}
+  m_LocalScale: {x: 100000, y: 1, z: 100000}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -9589,3 +9644,4 @@ SceneRoots:
   - {fileID: 887100632}
   - {fileID: 1386308250}
   - {fileID: 1190622189}
+  - {fileID: 1578621820}

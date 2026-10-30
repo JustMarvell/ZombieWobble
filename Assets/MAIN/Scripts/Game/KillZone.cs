@@ -10,7 +10,7 @@ namespace Citlali.Game
     [RequireComponent(typeof(Collider))]
     public class KillZone : MonoBehaviour
     {
-        [SerializeField] Transform playerRespawnPoint;
+        public Transform playerRespawnPoint;
 
         void Reset() => GetComponent<Collider>().isTrigger = true;
 

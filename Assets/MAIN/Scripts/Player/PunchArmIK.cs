@@ -26,6 +26,7 @@ namespace Citlali.Player
         [SerializeField] float recoverTime = 0.25f;
 
         bool useRight = true;
+        float frozenUntil;
 
         void Start()
         {
@@ -41,6 +42,8 @@ namespace Citlali.Player
             a.t = 0f;
         }
 
+        public void HitStop(float seconds) => frozenUntil = Time.time + seconds;
+
         void Update()
         {
             Tick(right);
@@ -50,6 +53,8 @@ namespace Citlali.Player
         void Tick(Arm a)
         {
             if (a.t < 0f) { a.constraint.weight = 0f; return; }
+
+            if (a.t >= windupTime && Time.time < frozenUntil) return;
 
             a.t += Time.deltaTime;
             Vector3 local;

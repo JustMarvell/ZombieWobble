@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Citlali.Game;
 using UnityEngine;
 
 namespace Citlali.Level
@@ -60,6 +61,12 @@ namespace Citlali.Level
 
             Place(finishChunk, previous);
             Physics.SyncTransforms();   // colliders are in place immediately
+
+            KillZone[] ks = FindObjectsByType<KillZone>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            foreach (var k in ks)
+            {
+                k.playerRespawnPoint = PlayerSpawns[Random.Range(0, PlayerSpawns.Count)];
+            }
         }
 
         LevelChunk Place(LevelChunk prefab, LevelChunk previous)

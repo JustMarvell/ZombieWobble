@@ -307,7 +307,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -394,7 +394,7 @@ MonoBehaviour:
   moveSpeed: 6
   acceleration: 25
   responsiveness: 5
-  jumpSpeed: 7
+  jumpSpeed: 4
   turnSpeed: 10
 --- !u!114 &6888812274321064090
 MonoBehaviour:
@@ -418,6 +418,9 @@ MonoBehaviour:
   punchIK: {fileID: 3589638274824102633}
   wobble: {fileID: 3303202477148688714}
   knockdownTime: 1.5
+  hitDelay: 0.16
+  hitStopTime: 0.08
+  shakeAmount: 0.35
 --- !u!114 &4412603821084613910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +454,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   distance: 8
   sensitivity: 0.1
+  maxShakeAngle: 3
+  maxShakeOffset: 0.15
+  traumaDecay: 1.8
 --- !u!114 &7906425182723946663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,7 +2276,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2083113605592116300, guid: 54f5fa6ad58261c6494d0548a1c8c214, type: 2}
+  - {fileID: 2083113605592116300, guid: 5452392fc99ea58aeb2a62dfec4f5053, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2316,8 +2322,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sample text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 54f5fa6ad58261c6494d0548a1c8c214, type: 2}
-  m_sharedMaterial: {fileID: 2083113605592116300, guid: 54f5fa6ad58261c6494d0548a1c8c214, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5452392fc99ea58aeb2a62dfec4f5053, type: 2}
+  m_sharedMaterial: {fileID: 2083113605592116300, guid: 5452392fc99ea58aeb2a62dfec4f5053, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
