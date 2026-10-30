@@ -32,7 +32,8 @@ namespace Citlali.Enemies
             if (timer > 0f) return;
             timer = Random.Range(interval.x, interval.y);
 
-            if (EnemyAI.All.Count >= maxAlive || CarryObject.All.Count == 0)
+            int cap = maxAlive + Mathf.Max(0, NetworkManager.Singleton.ConnectedClientsList.Count - 2);
+            if (EnemyAI.All.Count >= cap || CarryObject.All.Count == 0)
             {
                 Debug.Log($"Spawner skipped: alive {EnemyAI.All.Count}/{maxAlive}, carry objects {CarryObject.All.Count}");
                 return;

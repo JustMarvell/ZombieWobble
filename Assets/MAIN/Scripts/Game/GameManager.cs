@@ -17,8 +17,15 @@ namespace Citlali.Game
     {
         public static GameManager Instance { get; private set; }
 
+        [System.Serializable]
+        public class CarryOption
+        {
+            public NetworkObject prefab;
+            public int minPlayers = 1;
+        }
+
         [SerializeField] NetworkObject carryPrefab;
-        [SerializeField] Transform carrySpawn;
+        [SerializeField, Tooltip("Put Smallest First")] CarryOption[] carryOptions;
         [SerializeField] Transform[] playerSpawns;
         [SerializeField] NetworkObject medkitPickupPrefab;
         [SerializeField] Transform[] medkitSpawns;
@@ -133,7 +140,7 @@ namespace Citlali.Game
 
         void SpawnCarry()
         {
-            carry = Instantiate(carryPrefab, level.CarrySpawn.position, level.CarrySpawn.rotation);
+            carry = Instantiate(PickCarryPrefab(), level.CarrySpawn.position, level.CarrySpawn.rotation);
             carry.Spawn();
             carryHealth = carry.GetComponent<Health>();
             carryHealth.Died += OnCarryDied;
@@ -194,6 +201,15 @@ namespace Citlali.Game
             }
             Countdown.Value = 0;
             State.Value = GameState.Playing;
+        }
+
+        NetworkObject PickCarryPrefab()
+        {
+            int players = NetworkManager.Singleton.ConnectedClientsList.Count;
+            NetworkObject pick = carryOptions[0].prefab;
+            foreach (var o in carryOptions)
+                if (players >= o.minPlayers) pick = o.prefab;
+            return pick;
         }
     }
 }

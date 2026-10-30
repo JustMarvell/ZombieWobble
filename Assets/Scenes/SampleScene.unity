@@ -6913,7 +6913,7 @@ MonoBehaviour:
   - {fileID: 134341333581790342, guid: 836110db6119ce4a49b5627b773e76ff, type: 3}
   - {fileID: 7017602409917438312, guid: 17d5ffb4090cfda04b7bf0f2e19f0198, type: 3}
   finishChunk: {fileID: 363847590605979041, guid: d5cb54a0860b1ab5abbc329eb0eca8b0, type: 3}
-  middleCount: 50
+  middleCount: 5
 --- !u!4 &1190622189
 Transform:
   m_ObjectHideFlags: 0
@@ -7885,7 +7885,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Game.GameManager
   ShowTopMostFoldoutHeaderGroup: 1
   carryPrefab: {fileID: 5239076536353627844, guid: a201767757f679d63808d9a6cef2e09c, type: 3}
-  carrySpawn: {fileID: 935334341}
+  carryOptions:
+  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+    minPlayers: 1
+  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+    minPlayers: 3
+  - prefab: {fileID: 7023886716363182027, guid: 494c6a3e17462ffdeb81672b73dacb30, type: 3}
+    minPlayers: 5
   playerSpawns:
   - {fileID: 438233912}
   - {fileID: 742836972}
