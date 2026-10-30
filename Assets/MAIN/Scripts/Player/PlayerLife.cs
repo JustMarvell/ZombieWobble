@@ -133,6 +133,22 @@ namespace Citlali.Player
             if (bleedTimer <= 0f) State.Value = PlayerState.Dead;
         }
 
+        public void Respawn(Transform point)
+        {
+            if (!IsServer || State.Value == PlayerState.Dead) return;
+
+            KnockedDown.Value = false;
+            grab.Release();
+            inventory.ClearMedkit();
+
+            if (!rb.isKinematic)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+            GetComponent<NetworkTransform>().Teleport(point.position, point.rotation, Vector3.one);
+        }
+
         public void Kill()
         {
             if (!IsServer || State.Value == PlayerState.Dead) return;

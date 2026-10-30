@@ -7,6 +7,7 @@ using Citlali.Player;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using Citlali.Level;
 
 namespace Citlali.Game
 {
@@ -25,6 +26,7 @@ namespace Citlali.Game
         [SerializeField] Transform[] powerUpSpawns;
         [SerializeField] int powerUpCount = 3;
         [SerializeField] int countdownSeconds = 3;
+        [SerializeField] LevelGenerator level;
         
         public NetworkVariable<GameState> State = new NetworkVariable<GameState>(GameState.Lobby);
         public NetworkVariable<int> LevelSeed = new();
@@ -40,12 +42,26 @@ namespace Citlali.Game
 
         public override void OnNetworkSpawn()
         {
+            LevelSeed.OnValueChanged += OnSeedChanged;
+
             if (IsServer)
             {
                 State.Value = GameState.Lobby;
                 Countdown.Value = 0;
+                LevelSeed.Value = Random.Range(1, int.MaxValue);
+            }
+            else
+            {
+                level.Build(LevelSeed.Value);
             }
         }
+
+        public override void OnNetworkDespawn()
+        {
+            LevelSeed.OnValueChanged -= OnSeedChanged;
+        }
+
+        void OnSeedChanged(int previous, int next) => level.Build(next);
 
         public void StartRound()
         {
@@ -102,7 +118,7 @@ namespace Citlali.Game
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
 
-                var sp = playerSpawns[i++ % playerSpawns.Length];
+                var sp = level.PlayerSpawns[i++ % level.PlayerSpawns.Count];
                 p.GetComponent<NetworkTransform>().Teleport(sp.position, sp.rotation, Vector3.one);
             }
         }
@@ -117,7 +133,7 @@ namespace Citlali.Game
 
         void SpawnCarry()
         {
-            carry = Instantiate(carryPrefab, carrySpawn.position, carrySpawn.rotation);
+            carry = Instantiate(carryPrefab, level.CarrySpawn.position, level.CarrySpawn.rotation);
             carry.Spawn();
             carryHealth = carry.GetComponent<Health>();
             carryHealth.Died += OnCarryDied;
@@ -139,8 +155,8 @@ namespace Citlali.Game
 
         void SpawnMedkits()
         {
-            int count = Mathf.Min(Random.Range(1, 3), medkitSpawns.Length);
-            var pool = new List<Transform>(medkitSpawns);
+            var pool = new List<Transform>(level.MedkitSpawns);
+            int count = Mathf.Min(Random.Range(1, 3), pool.Count);
             for (int i = 0; i < count; i++)
             {
                 int k = Random.Range(0, pool.Count);
@@ -151,7 +167,7 @@ namespace Citlali.Game
 
         void SpawnPowerUps()
         {
-            var pool = new List<Transform>(powerUpSpawns);
+            var pool = new List<Transform>(level.PowerUpSpawns);
             int count = Mathf.Min(powerUpCount, pool.Count);
             for (int i = 0; i < count; i++)
             {

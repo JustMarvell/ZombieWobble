@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Citlali.Carry;
 using Citlali.Game;
+using Citlali.Level;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Citlali.Enemies
         [SerializeField] int maxAlive = 4;
         [SerializeField] float minDistance = 15f;
         [SerializeField] float maxDistance = 45f;
+        [SerializeField] LevelGenerator level;
 
         float timer;
 
@@ -38,7 +40,7 @@ namespace Citlali.Enemies
             Vector3 center = CarryObject.All[0].transform.position;
 
             var candidates = new List<Transform>();
-            foreach (var p in spawnPoints)
+            foreach (var p in level.EnemySpawns)
             {
                 float d = Vector3.Distance(p.position, center);
                 if (d >= minDistance && d <= maxDistance) candidates.Add(p);
@@ -53,19 +55,19 @@ namespace Citlali.Enemies
             Instantiate(enemyPrefab, sp.position + Vector3.up, sp.rotation).Spawn();
         }
 
-        void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.blue;
-            foreach (var p in spawnPoints)
-            {
-                Gizmos.DrawWireSphere(p.position, minDistance);
-            }
+        // void OnDrawGizmosSelected()
+        // {
+        //     Gizmos.color = Color.blue;
+        //     foreach (var p in spawnPoints)
+        //     {
+        //         Gizmos.DrawWireSphere(p.position, minDistance);
+        //     }
 
-            Gizmos.color = Color.red;
-            foreach (var p in spawnPoints)
-            {
-                Gizmos.DrawWireSphere(p.position, maxDistance);
-            }
-        }
+        //     Gizmos.color = Color.red;
+        //     foreach (var p in spawnPoints)
+        //     {
+        //         Gizmos.DrawWireSphere(p.position, maxDistance);
+        //     }
+        // }
     }
 }

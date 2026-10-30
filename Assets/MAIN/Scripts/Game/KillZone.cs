@@ -10,6 +10,8 @@ namespace Citlali.Game
     [RequireComponent(typeof(Collider))]
     public class KillZone : MonoBehaviour
     {
+        [SerializeField] Transform playerRespawnPoint;
+
         void Reset() => GetComponent<Collider>().isTrigger = true;
 
         void OnTriggerEnter(Collider other)
@@ -20,7 +22,11 @@ namespace Citlali.Game
             var body = other.attachedRigidbody;
             if (body == null) return;
 
-            if (body.TryGetComponent(out PlayerLife life)) life.Kill();
+            if (body.TryGetComponent(out PlayerLife life))
+            {
+                if (playerRespawnPoint != null) life.Respawn(playerRespawnPoint);
+                else life.Kill();
+            }
             else if (body.TryGetComponent(out CarryObject _) && body.TryGetComponent(out Health carryHealth)) carryHealth.Kill();
             else if (body.TryGetComponent(out EnemyAI _) && body.TryGetComponent(out Health enemyHealth)) enemyHealth.Kill();  
         }
