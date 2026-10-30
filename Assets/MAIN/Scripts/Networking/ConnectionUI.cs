@@ -8,12 +8,9 @@ namespace Citlali.Networking
     public class ConnectionUI : MonoBehaviour
     {
         string code = "";
-        string playerName;
+        string playerName = "";
 
-        void Start()
-        {
-            PlayerPrefs.GetString("PlayerName", "");
-        }
+        void Awake() => playerName = PlayerPrefs.GetString("PlayerName", "");
 
         void OnGUI()
         {
@@ -35,7 +32,7 @@ namespace Citlali.Networking
                 playerName = GUILayout.TextField(playerName, 14);
                 if (GUILayout.Button("Host")) { PlayerPrefs.SetString("PlayerName", playerName); sm.Host(); }
                 code = GUILayout.TextField(code, 6).ToUpperInvariant();
-                if (GUILayout.Button("Join")) sm.Join(code);
+                if (GUILayout.Button("Join")) { PlayerPrefs.SetString("PlayerName", playerName); sm.Join(code); }
                 GUI.enabled = true;
             }
 

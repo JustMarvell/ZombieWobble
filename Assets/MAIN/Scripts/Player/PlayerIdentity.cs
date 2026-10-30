@@ -6,7 +6,7 @@ namespace Citlali.Player
 {
     public class PlayerIdentity : NetworkBehaviour
     {
-        public static readonly Color[] Pallete =
+        public static readonly Color[] Palette =
         {
             new Color32(235, 68, 68, 255),    // red
             new Color32(64, 128, 242, 255),   // blue
@@ -16,20 +16,20 @@ namespace Citlali.Player
             new Color32(242, 115, 179, 255),  // pink
         };
 
-        [SerializeField] Renderer[] renderers;
-        [SerializeField] int materialIndex = -1;
+        [SerializeField] Renderer[] renderers;     // the zombie's SkinnedMeshRenderers
+        [SerializeField] int materialIndex = -1;   // -1 = tint everything, or the index of the clothes material
 
         public NetworkVariable<FixedString64Bytes> PlayerName = new();
         public NetworkVariable<int> ColorIndex = new(-1);
 
-        public Color PlayerColor => ColorIndex.Value >= 0 ? Pallete[ColorIndex.Value % Pallete.Length] : Color.white;
+        public Color PlayerColor => ColorIndex.Value >= 0 ? Palette[ColorIndex.Value % Palette.Length] : Color.white;
 
         public override void OnNetworkSpawn()
         {
             ColorIndex.OnValueChanged += OnColorChanged;
             ApplyColor();
 
-            if (!IsServer)
+            if (IsServer)
             {
                 ColorIndex.Value = FirstFreeColor();
                 PlayerName.Value = $"Player {OwnerClientId + 1}";
@@ -42,10 +42,7 @@ namespace Citlali.Player
             }
         }
 
-        public override void OnNetworkDespawn()
-        {
-            ColorIndex.OnValueChanged -= OnColorChanged;
-        }
+        public override void OnNetworkDespawn() => ColorIndex.OnValueChanged -= OnColorChanged;
 
         void OnColorChanged(int previous, int next) => ApplyColor();
 
@@ -54,16 +51,16 @@ namespace Citlali.Player
             var used = new System.Collections.Generic.HashSet<int>();
             foreach (var other in FindObjectsByType<PlayerIdentity>(FindObjectsSortMode.None))
                 if (other != this && other.ColorIndex.Value >= 0) used.Add(other.ColorIndex.Value);
-            
-            for (int i = 0; i < Pallete.Length; i++)
+
+            for (int i = 0; i < Palette.Length; i++)
                 if (!used.Contains(i)) return i;
-            return (int)(OwnerClientId % (ulong)Pallete.Length);
+            return (int)(OwnerClientId % (ulong)Palette.Length);
         }
 
         [Rpc(SendTo.Server)]
         void SubmitNameRpc(string name)
         {
-            name = name.Replace("<", "").Replace(">", "").Trim();
+            name = name.Replace("<", "").Replace(">", "").Trim();   // no rich text tricks
             if (name.Length == 0) return;
             if (name.Length > 14) name = name.Substring(0, 14);
             PlayerName.Value = name;
@@ -78,8 +75,8 @@ namespace Citlali.Player
             foreach (var r in renderers)
             {
                 if (materialIndex < 0) r.GetPropertyBlock(block); else r.GetPropertyBlock(block, materialIndex);
-                block.SetColor("_BaseColor", c);    // URP lit
-                block.SetColor("_Color", c);    // Built-in Standard
+                block.SetColor("_BaseColor", c);   // URP Lit
+                block.SetColor("_Color", c);       // Built-in Standard
                 if (materialIndex < 0) r.SetPropertyBlock(block); else r.SetPropertyBlock(block, materialIndex);
             }
         }

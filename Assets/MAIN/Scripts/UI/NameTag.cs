@@ -28,8 +28,8 @@ namespace Citlali.UI
             nextRefresh = Time.unscaledTime + 0.2f;
 
             string text = identity.PlayerName.Value.ToString();
-            if (!life.IsDowned) text += $"\nDOWNED {life.BleedOut.Value}s";
-            else if (life.State.Value == PlayerState.Dead) text += $"\nDEAD";
+            if (life.IsDowned) text += $"\nDOWNED {life.BleedOut.Value}s";
+            else if (life.State.Value == PlayerState.Dead) text += "\nDEAD";
             label.text = text;
             label.color = identity.PlayerColor;
         }
