@@ -52,5 +52,20 @@ namespace Citlali.Enemies
             var sp = candidates[Random.Range(0, candidates.Count)];
             Instantiate(enemyPrefab, sp.position + Vector3.up, sp.rotation).Spawn();
         }
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            foreach (var p in spawnPoints)
+            {
+                Gizmos.DrawWireSphere(p.position, minDistance);
+            }
+
+            Gizmos.color = Color.red;
+            foreach (var p in spawnPoints)
+            {
+                Gizmos.DrawWireSphere(p.position, maxDistance);
+            }
+        }
     }
 }

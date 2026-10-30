@@ -7,38 +7,31 @@ namespace Citlali.Networking
 {
     public class ConnectionUI : MonoBehaviour
     {
-        string ip = "127.0.0.1";
-
-        void Start()
-        {
-            var nm = NetworkManager.Singleton;
-            nm.NetworkConfig.ConnectionApproval = true;
-            nm.ConnectionApprovalCallback = (req, res) =>
-            {
-                res.Approved = nm.ConnectedClientsIds.Count < GameConfig.MaxPlayer;
-                res.CreatePlayerObject = true;
-                res.Pending = false;
-            };
-        }
+        string code = "";
 
         void OnGUI()
         {
-            var nm = NetworkManager.Singleton;
-            if (nm.IsClient || nm.IsServer) return;
+            var sm = SessionManager.Instance;
+            if (sm == null) return;
 
-            var utp = nm.GetComponent<UnityTransport>();
-            GUILayout.BeginArea(new Rect(20, 20, 220, 150));
-            ip = GUILayout.TextField(ip);
-            if (GUILayout.Button("Host"))
+            GUILayout.BeginArea(new Rect(Screen.width - 260f, 20f, 240f, 220f));
+
+            if (sm.InSession)
             {
-                utp.SetConnectionData("127.0.0.1", GameConfig.Port, "0.0.0.0");
-                nm.StartHost();
+                GUILayout.Label($"Join code: {sm.JoinCode}");
+                if (GUILayout.Button("Copy code")) GUIUtility.systemCopyBuffer = sm.JoinCode;
+                if (GUILayout.Button("Leave")) sm.Leave();
             }
-            if (GUILayout.Button("Join"))
+            else
             {
-                utp.SetConnectionData(ip, GameConfig.Port);
-                nm.StartClient();
+                GUI.enabled = !sm.IsBusy;
+                if (GUILayout.Button("Host")) sm.Host();
+                code = GUILayout.TextField(code, 6).ToUpperInvariant();
+                if (GUILayout.Button("Join")) sm.Join(code);
+                GUI.enabled = true;
             }
+
+            if (!string.IsNullOrEmpty(sm.Status)) GUILayout.Label(sm.Status);
             GUILayout.EndArea();
         }
     }

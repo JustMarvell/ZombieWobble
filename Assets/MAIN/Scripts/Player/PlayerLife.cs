@@ -132,5 +132,16 @@ namespace Citlali.Player
             if (secs != BleedOut.Value) BleedOut.Value = secs;
             if (bleedTimer <= 0f) State.Value = PlayerState.Dead;
         }
+
+        public void Kill()
+        {
+            if (!IsServer || State.Value == PlayerState.Dead) return;
+
+            grab.Release();
+            inventory.ClearMedkit();
+            health.SetHp(0f);
+            State.Value = PlayerState.Dead;
+            SetDownedPhysics(true);
+        }
     }
 }

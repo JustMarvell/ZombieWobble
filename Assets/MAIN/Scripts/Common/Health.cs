@@ -64,5 +64,12 @@ namespace Citlali.Common
             int s = Mathf.Max(0, Mathf.CeilToInt(paddingUtil - Time.time));
             if (PaddingSecs.Value != s) PaddingSecs.Value = s;
         }
+
+        public void Kill()
+        {
+            if (!IsServer || IsDead) return;
+            Hp.Value = 0f;
+            Died?.Invoke();
+        }
     }
 }

@@ -38,6 +38,15 @@ namespace Citlali.Game
             Instance = this;
         }
 
+        public override void OnNetworkSpawn()
+        {
+            if (IsServer)
+            {
+                State.Value = GameState.Lobby;
+                Countdown.Value = 0;
+            }
+        }
+
         public void StartRound()
         {
             if (!IsServer) return;
