@@ -16,6 +16,7 @@ namespace Citlali.Game
             foreach (var go in presistent) DontDestroyOnLoad(go);
             NetworkManager.Singleton.OnClientDisconnectCallback += OnDisconnected;
             SceneManager.LoadScene(GameConfig.MenuScene);
+            AudioListener.volume = PlayerPrefs.GetFloat("Volume", 1f);
         }
 
         void OnDisconnected(ulong clientId)

@@ -1,3 +1,4 @@
+using Citlali.Audio;
 using Citlali.Carry;
 using Unity.Netcode;
 using UnityEngine;
@@ -39,6 +40,7 @@ namespace Citlali.Player
                     continue;
 
                 carried = obj;
+                GrabSfxRpc(true);
                 handleIndex = idx;
 
                 handleT = handle;
@@ -66,6 +68,7 @@ namespace Citlali.Player
         public void Release()
         {
             if (!IsServer) return;
+            if (carried != null && IsSpawned) GrabSfxRpc(false);   // only when something was actually held
             if (carried) carried.Release(handleIndex);
             carried = null;
             handleT = null;
@@ -76,5 +79,9 @@ namespace Citlali.Player
         {
             if (IsServer) Release();
         }
+
+        [Rpc(SendTo.ClientsAndHost)]
+        void GrabSfxRpc(bool grabbed) =>
+            Sfx.Play(grabbed ? SfxId.Grab : SfxId.Release, transform.position);
     }
 }

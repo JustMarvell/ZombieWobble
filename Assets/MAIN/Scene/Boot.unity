@@ -282,6 +282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Game.Bootstrap
   presistent:
   - {fileID: 589282964}
+  - {fileID: 769574720}
+  - {fileID: 1721504972}
 --- !u!4 &718797389
 Transform:
   m_ObjectHideFlags: 0
@@ -289,6 +291,139 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718797387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &769574720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 769574722}
+  - component: {fileID: 769574721}
+  m_Layer: 0
+  m_Name: Sfx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &769574721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769574720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e158b9009bdab8249b3e062d2a7a555f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Audio.Sfx
+  entries:
+  - id: 0
+    clips:
+    - {fileID: 8300000, guid: f5d0baa9adf5b32b5b19f3596a4209b0, type: 3}
+    - {fileID: 8300000, guid: e711399c9124e31a2bdd5e8cc156ad24, type: 3}
+    - {fileID: 8300000, guid: 8d4939319323ee04b9f7006a28c13673, type: 3}
+    volume: 0.903
+    pitch: {x: 0.8, y: 1}
+  - id: 2
+    clips:
+    - {fileID: 8300000, guid: e0343ba9921b135a3936d3cc226800a9, type: 3}
+    - {fileID: 8300000, guid: 03d06285d243c1edfbb5abbb1ef9492f, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 3
+    clips:
+    - {fileID: 8300000, guid: 3d33d299e0195ec708760a4e9c33fb1f, type: 3}
+    - {fileID: 8300000, guid: f92277200feed20ba96568caf6ccf485, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 4
+    clips:
+    - {fileID: 8300000, guid: 63fe17c904df012e991cea020246c81b, type: 3}
+    - {fileID: 8300000, guid: 8752792a7963807c6a78ef19ddc51834, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 7
+    clips:
+    - {fileID: 8300000, guid: 6824110778ba9f64da5677f079c4a4d2, type: 3}
+    - {fileID: 8300000, guid: ace35b7d8221b9c5b9a4178e6fd80279, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 8
+    clips:
+    - {fileID: 8300000, guid: 32e7793efc6521c3195eeb2add964b48, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 9
+    clips:
+    - {fileID: 8300000, guid: 32e7793efc6521c3195eeb2add964b48, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 11
+    clips:
+    - {fileID: 8300000, guid: 32e7793efc6521c3195eeb2add964b48, type: 3}
+    volume: 0.819
+    pitch: {x: 1, y: 1}
+  - id: 15
+    clips:
+    - {fileID: 8300000, guid: 63fe17c904df012e991cea020246c81b, type: 3}
+    - {fileID: 8300000, guid: 8752792a7963807c6a78ef19ddc51834, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 16
+    clips:
+    - {fileID: 8300000, guid: 731373abb00727783a229f50ac6f4071, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 17
+    clips:
+    - {fileID: 8300000, guid: 4c3309df56fc78a5481cd0ec837e493f, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 22
+    clips:
+    - {fileID: 8300000, guid: 8795857a682bd4bb99a9eb82f31e7332, type: 3}
+    volume: 0.819
+    pitch: {x: 1, y: 1}
+  - id: 24
+    clips:
+    - {fileID: 8300000, guid: 9bd1686225488fed6a4f8dcc0ee753ef, type: 3}
+    volume: 0.819
+    pitch: {x: 1, y: 1}
+  - id: 25
+    clips:
+    - {fileID: 8300000, guid: d94e6ef83eeee7be9a71bdb4d04922f1, type: 3}
+    volume: 0.819
+    pitch: {x: 1, y: 1}
+  - id: 27
+    clips:
+    - {fileID: 8300000, guid: a4fd848e50c0882f6b9acf9f7da0b6ca, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  - id: 28
+    clips:
+    - {fileID: 8300000, guid: e097a8cde78e082729f114726a06c900, type: 3}
+    volume: 0.819
+    pitch: {x: 0.9, y: 1}
+  voices: 16
+--- !u!4 &769574722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769574720}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -561,6 +696,55 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1721504972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721504974}
+  - component: {fileID: 1721504973}
+  m_Layer: 0
+  m_Name: MusicPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1721504973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721504972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1072d43f117e646b5572e968aa981a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Citlali.Audio.MusicPlayer
+  menuMusic: {fileID: 8300000, guid: 2bb215f8e31e7eaffb8c175d7ab1b063, type: 3}
+  menuVolume: 0.5
+  gameMusic: {fileID: 8300000, guid: 2bb215f8e31e7eaffb8c175d7ab1b063, type: 3}
+  gameVolume: 0.242
+  fadeTime: 1.5
+--- !u!4 &1721504974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721504972}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -569,3 +753,5 @@ SceneRoots:
   - {fileID: 1477776187}
   - {fileID: 589282968}
   - {fileID: 718797389}
+  - {fileID: 769574722}
+  - {fileID: 1721504974}

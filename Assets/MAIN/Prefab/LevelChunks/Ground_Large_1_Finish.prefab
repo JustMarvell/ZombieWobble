@@ -529,13 +529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Citlali.Level.LevelChunk
   entry: {fileID: 4717610141642694603}
   exit: {fileID: 8031269841300331964}
-  playerSpawns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  playerSpawns: []
   carrySpawn: {fileID: 0}
   medkitSpawns: []
   powerUpSpawns: []

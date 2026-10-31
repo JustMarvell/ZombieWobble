@@ -43,6 +43,8 @@ namespace Citlali.Items
                 body.GetComponent<PlayerBuffs>().Give(type, duration);
             }
 
+            if (body.TryGetComponent(out PlayerAudio pa)) pa.PowerUpSfxRpc();
+
             NetworkObject.Despawn(true);
         }
     }

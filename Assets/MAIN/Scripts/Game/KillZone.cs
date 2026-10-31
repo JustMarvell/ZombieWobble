@@ -24,6 +24,8 @@ namespace Citlali.Game
 
             if (body.TryGetComponent(out PlayerLife life))
             {
+                if (body.TryGetComponent(out PlayerAudio pa)) pa.FallSfxRpc();
+
                 if (playerRespawnPoint != null) life.Respawn(playerRespawnPoint);
                 else life.Kill();
             }

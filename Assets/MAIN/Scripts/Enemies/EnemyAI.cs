@@ -24,6 +24,7 @@ namespace Citlali.Enemies
 
         Rigidbody rb;
         Health health;
+        EnemyAudio enemyAudio;
         float nextAttackTime;
         bool dead;
 
@@ -31,6 +32,7 @@ namespace Citlali.Enemies
         {
             rb = GetComponent<Rigidbody>();
             health = GetComponent<Health>();
+            enemyAudio = GetComponent<EnemyAudio>();
             ragdoll.SetRagdoll(false);
         }
 
@@ -103,6 +105,7 @@ namespace Citlali.Enemies
             if (!other.TryGetComponent(out Health target)) return;
 
             nextAttackTime = Time.time + attackCooldown;
+            enemyAudio.AttackRpc();
             target.TakeDamage(contactDamage);
             if (other.TryGetComponent(out PlayerLife victim)) victim.Knockdown(0.6f);
         }

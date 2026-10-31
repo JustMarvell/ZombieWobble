@@ -1,3 +1,4 @@
+using Citlali.Audio;
 using Citlali.Game;
 using TMPro;
 using Unity.Netcode;
@@ -76,20 +77,30 @@ namespace Citlali.UI
 
         void OnStateChanged(GameState previous, GameState next)
         {
+            MusicPlayer.Duck(next == GameState.Won || next == GameState.Lost ? 0.3f : 1f);
+
             if (previous == GameState.Countdown && next == GameState.Playing)
+            {
                 ShowCountdown("GO!", goShowTime);
+                Sfx.PlayUI(SfxId.Go);
+            }
 
             if (next == GameState.Won || next == GameState.Lost)
             {
                 resultTitle.text = next == GameState.Won ? "YOU WIN!" : "YOU LOST!";
-                resultPanel.SetActive(true);   // must be active before the animation starts
+                resultPanel.SetActive(true);
                 resultPop.Play();
+                Sfx.PlayUI(next == GameState.Won ? SfxId.Win : SfxId.Lose);
             }
         }
 
         void OnCountdownChanged(int previous, int next)
         {
-            if (next > 0) ShowCountdown(next.ToString(), 0f);
+            if (next > 0)
+            {
+                ShowCountdown(next.ToString(), 0f);
+                Sfx.PlayUI(SfxId.CountdownTick);
+            }
         }
 
         void ShowCountdown(string text, float hideAfter)

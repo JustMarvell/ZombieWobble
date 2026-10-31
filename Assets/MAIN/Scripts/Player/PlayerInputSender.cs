@@ -66,7 +66,7 @@ namespace Citlali.Player
             MoveRpc(fwd * i.y + right * i.x);   // camera-relative world direction
         }
 
-        bool CanAct => life.IsAlive && !life.KnockedDown.Value &&
+        bool CanAct => life.IsAlive && !life.KnockedDown.Value && !CursorController.Paused &&
             (GameManager.Instance == null || GameManager.Instance.State.Value != GameState.Countdown);
 
         [Rpc(SendTo.Server, Delivery = RpcDelivery.Unreliable)]
