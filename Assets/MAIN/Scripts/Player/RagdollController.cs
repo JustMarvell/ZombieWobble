@@ -1,5 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement;
 
 namespace Citlali.Player
 {
@@ -24,6 +26,12 @@ namespace Citlali.Player
         Vector3 lastPos, velocity;
         bool following, inited;
 
+        void Start()
+        {
+            var sm = NetworkManager.Singleton != null ? NetworkManager.Singleton.SceneManager : null;
+            if (sm != null) sm.OnLoad += OnSceneLoad;
+        }
+
         void Init()
         {
             inited = true;
@@ -46,6 +54,13 @@ namespace Citlali.Player
 
             lastPos = owner.position;
         }
+
+        void OnSceneLoad(ulong clientId, string sceneName, LoadSceneMode mode, AsyncOperation op)
+        {
+            if (clientId != NetworkManager.Singleton.LocalClientId || mode != LoadSceneMode.Single) return;
+            if (IsRagdoll) SetRagdoll(false);   // reattach the hips before the old scene unloads
+        }
+
 
         public void SetRagdoll(bool on, bool follow = false)
         {
@@ -114,7 +129,10 @@ namespace Citlali.Player
 
         void OnDestroy()
         {
-            if (IsRagdoll && hips != null) Destroy(hips.gameObject);
+            var sm = NetworkManager.Singleton != null ? NetworkManager.Singleton.SceneManager : null;
+            if (sm != null) sm.OnLoad -= OnSceneLoad;
+
+            if (IsRagdoll && hips != null) Destroy(hips.gameObject);   // unchanged: clean up detached hips
         }
     }
 }

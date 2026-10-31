@@ -26,6 +26,7 @@ namespace Citlali.UI
         [SerializeField] TMP_Text resultTitle;
         [SerializeField] PopAnimator resultPop;
         [SerializeField] Button restartButton;
+        [SerializeField] Button lobbyButton;
         [SerializeField] GameObject resultWaitingText;
 
         float hideCountdownAt;
@@ -37,6 +38,7 @@ namespace Citlali.UI
             gm.Countdown.OnValueChanged += OnCountdownChanged;
             startButton.onClick.AddListener(() => gm.StartRound());
             restartButton.onClick.AddListener(() => gm.StartRound());
+            lobbyButton.onClick.AddListener(() => gm.ReturnToLobby());
             countdownLabel.gameObject.SetActive(false);
         }
 
@@ -62,6 +64,7 @@ namespace Citlali.UI
             startButton.gameObject.SetActive(host);
             lobbyWaitingText.SetActive(!host);
             restartButton.gameObject.SetActive(host);
+            lobbyButton.gameObject.SetActive(host);
             resultWaitingText.SetActive(!host);
 
             if (hideCountdownAt > 0f && Time.unscaledTime >= hideCountdownAt)

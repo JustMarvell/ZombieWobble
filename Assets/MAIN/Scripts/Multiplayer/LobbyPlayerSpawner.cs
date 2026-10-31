@@ -1,4 +1,7 @@
+using Citlali.Common;
+using Citlali.Player;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 namespace Citlali.Multiplayer
@@ -26,9 +29,27 @@ namespace Citlali.Multiplayer
         void Spawn(ulong clientId)
         {
             var nm = NetworkManager.Singleton;
-            if (nm.ConnectedClients[clientId].PlayerObject != null) return;
             var sp = spawnPoints[next++ % spawnPoints.Length];
-            Instantiate(playerPrefab, sp.position, sp.rotation).SpawnAsPlayerObject(clientId);
+            var existing = nm.ConnectedClients[clientId].PlayerObject;
+
+            if (existing == null)
+                Instantiate(playerPrefab, sp.position, sp.rotation).SpawnAsPlayerObject(clientId);
+            else
+                ResetPlayer(existing, sp);   // coming back from a round
+        }
+
+        static void ResetPlayer(NetworkObject p, Transform sp)
+        {
+            p.GetComponent<PlayerGrab>().Release();
+            p.GetComponent<Health>().ResetFull();
+            p.GetComponent<PlayerLife>().ResetToAlive();
+
+            var rb = p.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.position = sp.position;
+            rb.rotation = sp.rotation;
+            p.GetComponent<NetworkTransform>().Teleport(sp.position, sp.rotation, Vector3.one);
         }
     }
 }

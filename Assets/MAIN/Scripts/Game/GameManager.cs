@@ -10,6 +10,7 @@ using UnityEngine;
 using Citlali.Level;
 using UnityEngine.SceneManagement;
 using Citlali.Config;
+using Citlali.Networking;
 
 namespace Citlali.Game
 {
@@ -203,6 +204,19 @@ namespace Citlali.Game
         {
             foreach (var e in new List<EnemyAI>(EnemyAI.All))
                 if (e.NetworkObject.IsSpawned) e.NetworkObject.Despawn(true);
+        }
+
+        public void ReturnToLobby()
+        {
+            if (!IsServer) return;
+
+            ClearCarry();
+            ClearMedkits();
+            ClearEnemies();
+            ClearPowerUps();
+
+            _ = SessionManager.Instance.SetLocked(false);
+            NetworkManager.SceneManager.LoadScene(GameConfig.LobbyScene, LoadSceneMode.Single);
         }
 
         IEnumerator CountdownRoutine()
