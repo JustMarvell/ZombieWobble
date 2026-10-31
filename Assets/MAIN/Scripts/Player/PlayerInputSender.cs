@@ -2,6 +2,7 @@ using Citlali.Game;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Citlali.Player
 {
@@ -58,13 +59,15 @@ namespace Citlali.Player
 
         void FixedUpdate()
         {
+            if (cam == null) cam = Camera.main.transform;
             Vector2 i = move.ReadValue<Vector2>();
             Vector3 fwd = Vector3.ProjectOnPlane(cam.forward, Vector3.up).normalized;
             Vector3 right = Vector3.ProjectOnPlane(cam.right, Vector3.up).normalized;
             MoveRpc(fwd * i.y + right * i.x);   // camera-relative world direction
         }
 
-        bool CanAct => life.IsAlive && !life.KnockedDown.Value && GameManager.Instance.State.Value != GameState.Countdown;
+        bool CanAct => life.IsAlive && !life.KnockedDown.Value &&
+            (GameManager.Instance == null || GameManager.Instance.State.Value != GameState.Countdown);
 
         [Rpc(SendTo.Server, Delivery = RpcDelivery.Unreliable)]
         void MoveRpc(Vector3 dir) => motor.SetMoveDir(CanAct ? dir : Vector3.zero);

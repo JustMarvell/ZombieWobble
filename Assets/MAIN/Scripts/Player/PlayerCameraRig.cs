@@ -38,6 +38,12 @@ namespace Citlali.Player
 
         void LateUpdate()
         {
+            if (cam == null)
+            {
+                if (Camera.main == null) return;
+                cam = Camera.main.transform;
+            }
+
             if (CursorController.GameplayActive)
             {
                 Vector2 d = look.ReadValue<Vector2>();

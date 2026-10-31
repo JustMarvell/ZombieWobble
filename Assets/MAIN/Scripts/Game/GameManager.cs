@@ -8,6 +8,8 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using Citlali.Level;
+using UnityEngine.SceneManagement;
+using Citlali.Config;
 
 namespace Citlali.Game
 {
@@ -50,6 +52,7 @@ namespace Citlali.Game
         public override void OnNetworkSpawn()
         {
             LevelSeed.OnValueChanged += OnSeedChanged;
+            if (IsServer) NetworkManager.SceneManager.OnLoadEventCompleted += OnSceneReady;
 
             if (IsServer)
             {
@@ -65,10 +68,18 @@ namespace Citlali.Game
 
         public override void OnNetworkDespawn()
         {
+            var nm = NetworkManager.Singleton;
+            if (nm != null && nm.SceneManager != null)
+                nm.SceneManager.OnLoadEventCompleted -= OnSceneReady;
             LevelSeed.OnValueChanged -= OnSeedChanged;
         }
 
         void OnSeedChanged(int previous, int next) => level.Build(next);
+
+        void OnSceneReady(string scene, LoadSceneMode mode, List<ulong> completed, List<ulong> timedOut)
+        {
+            if (scene == GameConfig.GameScene) StartRound();
+        }
 
         public void StartRound()
         {
@@ -116,17 +127,20 @@ namespace Citlali.Game
             {
                 var p = client.PlayerObject;
                 if (p == null) continue;
-                
-                p.GetComponent<PlayerGrab>().Release();
-                p.GetComponent<PlayerLife>().ResetToAlive();
-                p.GetComponent<PlayerBuffs>().ClearAll();
 
+                p.GetComponent<PlayerGrab>().Release();
+                p.GetComponent<Health>().ResetFull();
+                p.GetComponent<PlayerLife>().ResetToAlive();
+
+                var sp = playerSpawns[i++ % playerSpawns.Length];
                 var rb = p.GetComponent<Rigidbody>();
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-
-                var sp = level.PlayerSpawns[i++ % level.PlayerSpawns.Count];
+                rb.position = sp.position;      // move the rigidbody itself, not only the transform
+                rb.rotation = sp.rotation;
                 p.GetComponent<NetworkTransform>().Teleport(sp.position, sp.rotation, Vector3.one);
+
+                Debug.Log($"ResetPlayers: {p.name} -> {sp.position}");   // temporary
             }
         }
 

@@ -23,16 +23,16 @@ namespace Citlali.Networking
             {
                 GUILayout.Label($"Join code: {sm.JoinCode}");
                 if (GUILayout.Button("Copy code")) GUIUtility.systemCopyBuffer = sm.JoinCode;
-                if (GUILayout.Button("Leave")) sm.Leave();
+                if (GUILayout.Button("Leave")) _ = sm.Leave();
             }
             else
             {
                 GUI.enabled = !sm.IsBusy;
                 GUILayout.Label("Name");
                 playerName = GUILayout.TextField(playerName, 14);
-                if (GUILayout.Button("Host")) { PlayerPrefs.SetString("PlayerName", playerName); sm.Host(); }
+                if (GUILayout.Button("Host")) { PlayerPrefs.SetString("PlayerName", playerName); _ = sm.Host(); }
                 code = GUILayout.TextField(code, 6).ToUpperInvariant();
-                if (GUILayout.Button("Join")) { PlayerPrefs.SetString("PlayerName", playerName); sm.Join(code); }
+                if (GUILayout.Button("Join")) { PlayerPrefs.SetString("PlayerName", playerName); _ = sm.Join(code); }
                 GUI.enabled = true;
             }
 

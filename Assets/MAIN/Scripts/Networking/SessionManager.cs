@@ -26,7 +26,7 @@ namespace Citlali.Networking
             Instance = this;
         }
 
-        public async void Host()
+        public async Task Host()
         {
             await Run("Creating game....", async() =>
             {
@@ -36,7 +36,7 @@ namespace Citlali.Networking
             });
         }
 
-        public async void Join(string code)
+        public async Task Join(string code)
         {
             code = code.Trim().ToUpperInvariant();
             if (code.Length == 0) { Status = "Enter a join code"; return; }
@@ -48,7 +48,7 @@ namespace Citlali.Networking
             });
         }
 
-        public async void Leave()
+        public async Task Leave()
         {
             await Run("Leaving....", async() =>
             {
@@ -89,6 +89,15 @@ namespace Citlali.Networking
                 ClearSession();
             }
             finally { IsBusy = false; }
+        }
+
+        public async Task SetLocked(bool locked)
+        {
+            if (session is IHostSession host)
+            {
+                host.IsLocked = locked;
+                await host.SavePropertiesAsync();
+            }
         }
 
         void ClearSession()
