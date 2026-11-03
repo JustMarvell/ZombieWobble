@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Citlali.Common;
 using Unity.Netcode;
 using Unity.Netcode.Components;
@@ -9,6 +10,8 @@ namespace Citlali.Player
 
     public class PlayerLife : NetworkBehaviour
     {
+        public static readonly List<PlayerLife> All = new();
+
         [SerializeField] float bleedOutTime = 30f;
         [SerializeField] float reviveHpFraction = 0.3f;
         [SerializeField] Transform visual;
@@ -40,6 +43,8 @@ namespace Citlali.Player
             inventory = GetComponent<PlayerInventory>();
             visualStartPos = visual.localPosition;
 
+            All.Add(this);
+
             State.OnValueChanged += OnStateChanged;
             KnockedDown.OnValueChanged += OnKnockedDownChanged;
             RefreshRagdoll();
@@ -52,6 +57,8 @@ namespace Citlali.Player
             State.OnValueChanged -= OnStateChanged;
             KnockedDown.OnValueChanged -= OnKnockedDownChanged;
             if (IsServer && health != null) health.Died -= GoDown;
+
+            All.Remove(this);
         }
 
         void OnStateChanged(PlayerState previous, PlayerState next) => RefreshRagdoll();
